@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const TELEGRAM_BOT_TOKEN = '8876457882:AAFvczJKXLDbXzS9BiNmgu7czyV8vQkOZWw';
+const TELEGRAM_BOT_TOKEN = '8972566933:AAFim0VuTEk1Y_oQrh6Go7TqpWZV1vyUFCY';
 const TELEGRAM_CHAT_ID = '7611064372';
 
 app.post('/submit', (req, res) => {

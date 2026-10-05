@@ -38,6 +38,9 @@ app.post('/submit', (req, res) => {
         res.status(500).send({ success: false });
     });
 });
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'attendance.html')); // Yahan apni HTML file ka naam likh dena jo tumhari directory mein hai
+});
 
 // Server ko port par chalane ke liye
 const PORT = process.env.PORT || 3000;

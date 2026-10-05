@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Integral University - Student Attendance Form</title>
-    <!-- FontAwesome Icons for official stickers -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("kkGYuUZhCYxOxjczT");
+        })();
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,6 +22,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
         .container {
             background: #ffffff;
@@ -78,19 +87,6 @@
         }
         input:focus {
             border-color: #0b2545;
-        }
-        input:invalid:not(:placeholder-shown) {
-            border-color: #dc2626;
-        }
-        .error-msg {
-            color: #dc2626;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-            font-weight: 500;
-        }
-        input:invalid:not(:placeholder-shown) + .error-msg {
-            display: block;
         }
         button {
             width: 100%;
@@ -157,13 +153,11 @@
             <div class="form-group">
                 <label><i class="fa-solid fa-phone"></i> Phone Number</label>
                 <input type="tel" name="phone" placeholder="Enter your 10 digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
-                <div class="error-msg">Kripya poore 10 digit ka mobile number bharein.</div>
             </div>
 
             <div class="form-group">
                 <label><i class="fa-solid fa-users"></i> Group</label>
                 <input type="number" name="group" placeholder="Enter your group (1 to 10)" min="1" max="10" required>
-                <div class="error-msg">Group number 1 se 10 ke beech hona chahiye.</div>
             </div>
 
             <div class="form-group">
@@ -186,7 +180,7 @@
                 <input type="text" name="enrollment" placeholder="Enter your enrollment number" required>
             </div>
 
-            <button type="submit">Submit Attendance</button>
+            <button type="submit" id="submitBtn">Submit Attendance</button>
         </form>
     </div>
 
@@ -198,36 +192,23 @@
 </div>
 
 <script>
-    document.getElementById('attendanceForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+        event.preventDefault();
         
-        // Form ka sara data collect karo
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = 'Submitting...';
+        submitBtn.disabled = true;
 
-        try {
-            // Server ke /submit route par data bhejo
-            const response = await fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            
-            if (result.success) {
-                // Agar data chala gaya, tab success screen dikhao
+        emailjs.sendForm('service_w0meqee', 'template_eqksbd2', this)
+            .then(function() {
                 document.getElementById('form-container').style.display = 'none';
                 document.getElementById('success-screen').style.display = 'block';
-            } else {
-                alert('Kuch error aagayi, dobara try karein.');
-            }
-        } catch (err) {
-            console.error('Error:', err);
-            alert('Server se connect karne mein problem aayi.');
-        }
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Kuch error aa gayi, kripya dobara try karein.');
+                submitBtn.innerText = 'Submit Attendance';
+                submitBtn.disabled = false;
+            });
     });
 </script>
 

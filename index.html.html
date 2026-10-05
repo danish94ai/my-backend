@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integral University - Student Attendance Form</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("kkGYuUZhCYxOxjczT");
+        })();
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .university-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #0b2545;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .main-title-box {
+            background-color: #0b2545;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .session {
+            text-align: center;
+            font-weight: bold;
+            color: #0b2545;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            color: #0b2545;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        label i {
+            color: #0b2545;
+            font-size: 16px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #0b2545;
+        }
+        button {
+            width: 100%;
+            background-color: #0b2545;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #133863;
+        }
+        #success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .blue-tick-circle {
+            width: 70px;
+            height: 70px;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+        #success-screen h3 {
+            color: #0b2545;
+            margin-bottom: 10px;
+        }
+        #success-screen p {
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="form-container">
+        <div class="university-header">
+            <span style="font-weight:bold; color:#0b2545; font-size:12px;">Integral University</span>
+            <span style="font-weight:bold; color:#b91c1c; font-size:12px;">NAAC A+ Accredited</span>
+        </div>
+
+        <div class="main-title-box">STUDENT ATTENDANCE FORM</div>
+        <div class="session">Academic Session : 2026 – 2027</div>
+
+        <form id="attendanceForm">
+            <div class="form-group">
+                <label><i class="fa-solid fa-user"></i> Name</label>
+                <input type="text" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-phone"></i> Phone Number</label>
+                <input type="tel" name="phone" placeholder="Enter your 10 digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-users"></i> Group</label>
+                <input type="number" name="group" placeholder="Enter your group (1 to 10)" min="1" max="10" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-user-graduate"></i> Section</label>
+                <input type="text" name="section" placeholder="Enter your section" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-clipboard-user"></i> Attendance</label>
+                <input type="text" name="attendance" placeholder="Enter your attendance" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-graduation-cap"></i> Branch</label>
+                <input type="text" name="branch" placeholder="Enter your branch" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-id-card"></i> Enrollment Number</label>
+                <input type="text" name="enrollment" placeholder="Enter your enrollment number" required>
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Attendance</button>
+        </form>
+    </div>
+
+    <div id="success-screen">
+        <div class="blue-tick-circle">✓</div>
+        <h3>Attendance Submitted Successfully!</h3>
+        <p>Aapka data safalpurvak record ho gaya hai.</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = 'Submitting...';
+        submitBtn.disabled = true;
+
+        emailjs.sendForm('service_w0meqee', 'template_eqksbd2', this)
+            .then(function() {
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('success-screen').style.display = 'block';
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('Kuch error aa gayi, kripya dobara try karein.');
+                submitBtn.innerText = 'Submit Attendance';
+                submitBtn.disabled = false;
+            });
+    });
+</script>
+
+</body>
+</html>
